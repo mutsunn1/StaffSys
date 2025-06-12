@@ -26,6 +26,7 @@ struct Employee
 
 Employee employees[100];    // 员工数组
 Employee tempEmployee[100]; // 临时员工变量
+
 int employeeCount = 0;
 
 
