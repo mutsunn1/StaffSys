@@ -10,12 +10,7 @@
 #include <map>
 #include <limits>
 using namespace std;
-#include <vector>
-#include <algorithm>
-#include <cctype>
-#include <iomanip>
-#include <map>
-#include <limits>
+
 // 定义员工结构体
 struct Employee
 {
@@ -187,14 +182,14 @@ void deleteEmployee(int index) // 删除函数
         employees[i] = employees[i + 1];
     }
     employeeCount--; // 减少员工数量
-    cout << "员工信息已删除。" << endl;
+    
 }
 void deleteEmployeeBySearch()
 { // 删除函数界面
     searchEmployee();
 
     int length = sizeof(tempEmployee) / sizeof(tempEmployee[0]); // 获取数组长度
-    printEmployees(tempEmployee, length);
+    
     cout << "是否删除以上员工信息？(y/n)";
     char flag;
     cin >> flag;
