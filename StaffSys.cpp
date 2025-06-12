@@ -4,7 +4,12 @@
 #include <climits>
 #include <fstream>
 using namespace std;
-
+#include <vector>
+#include <algorithm>
+#include <cctype>
+#include <iomanip>
+#include <map>
+#include <limits>
 // 定义员工结构体
 struct Employee
 {
@@ -100,7 +105,7 @@ void Sort()
     cout << "请输入您的选择：";
     int choice;
     cin >> choice;
-    if(choice < 1 || choice > 3)
+    if (choice < 1 || choice > 3)
     {
         cout << "无效选项，请重新输入" << endl;
     }
@@ -131,7 +136,99 @@ void Sort()
     // 打印排序结果
     printEmployees(employees, employeeCount);
 }
+void searchEmployee()
+{
+    int choice;
+    cout << "\n===== 查询员工 =====\n";
+    cout << "1. 按工号查询\n";
+    cout << "2. 按姓名查询\n";
+    cout << "3. 按职位查询\n";
+    cout << "请选择查询方式: ";
+    cin >> choice;
 
+    // 清除输入缓冲区
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    bool found = false;
+
+    switch (choice)
+    {
+    case 1:
+    { // 按工号查询
+        char searchId[20];
+        cout << "请输入要查询的工号: ";
+        cin.getline(searchId, sizeof(searchId));
+
+        cout << "\n查询结果:\n";
+        cout << "工号\t姓名\t职位\t工资" << endl;
+        for (int i = 0; i < employeeCount; i++)
+        {
+            if (strcmp(employees[i].id, searchId) == 0)
+            {
+                cout << employees[i].id << "\t"
+                     << employees[i].name << "\t"
+                     << employees[i].position << "\t"
+                     << employees[i].salary << endl;
+                found = true;
+                break; // 工号唯一，找到后即可退出
+            }
+        }
+        break;
+    }
+    case 2:
+    { // 按姓名查询
+        char searchName[50];
+        cout << "请输入要查询的姓名: ";
+        cin.getline(searchName, sizeof(searchName));
+
+        cout << "\n查询结果:\n";
+        cout << "工号\t姓名\t职位\t工资" << endl;
+        for (int i = 0; i < employeeCount; i++)
+        {
+            if (strcmp(employees[i].name, searchName) == 0)
+            {
+                cout << employees[i].id << "\t"
+                     << employees[i].name << "\t"
+                     << employees[i].position << "\t"
+                     << employees[i].salary << endl;
+                found = true;
+            }
+        }
+        break;
+    }
+    case 3:
+    { // 按职位查询
+        char searchPosition[50];
+        cout << "请输入要查询的职位: ";
+        cin.getline(searchPosition, sizeof(searchPosition));
+
+        cout << "\n查询结果:\n";
+        cout << "工号\t姓名\t职位\t工资" << endl;
+        for (int i = 0; i < employeeCount; i++)
+        {
+            if (strcmp(employees[i].position, searchPosition) == 0)
+            {
+                cout << employees[i].id << "\t"
+                     << employees[i].name << "\t"
+                     << employees[i].position << "\t"
+                     << employees[i].salary << endl;
+                found = true;
+            }
+        }
+        break;
+    }
+    default:
+        cout << "无效的选择！" << endl;
+        return;
+    }
+
+    if (!found)
+    {
+        cout << "未找到匹配的员工信息！" << endl;
+    }
+}
+
+// 在main函数中添加测试代码
 int main()
 {
     // 初始化员工数据
@@ -140,8 +237,11 @@ int main()
     employees[2] = e3;
     employeeCount = 3;
 
-    // 进行排序操作
+    // 测试排序功能
     Sort();
+
+    // 测试查询功能
+    searchEmployee();
 
     return 0;
 }
