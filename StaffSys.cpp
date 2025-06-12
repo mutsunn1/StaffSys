@@ -26,7 +26,7 @@ struct Employee
 
 Employee employees[100];    // 员工数组
 Employee tempEmployee[100]; // 临时员工变量
-
+int tempCount = 0; // 临时数组中的员工数量
 int employeeCount = 0;
 
 
@@ -47,8 +47,34 @@ void printEmployees(Employee employees[], int size)
     }
     cout << endl;
 }
-void searchEmployee()
-{
+// 打印临时员工数组中的查询结果
+void printTempEmployees() {
+    if (tempCount == 0) {
+        cout << "临时数组中无员工数据！" << endl;
+        return;
+    }
+
+    cout << "\n临时数组中的查询结果：" << endl;
+    cout << "工号\t姓名\t职位\t工资" << endl;
+    for (int i = 0; i < tempCount; i++) {
+        cout << tempemployee[i].id << "\t"
+            << tempemployee[i].name << "\t"
+            << tempemployee[i].position << "\t"
+            << tempemployee[i].salary << endl;
+    }
+    cout << endl;
+}
+
+// 初始化临时员工数组
+void initTempEmployees() {
+    tempCount = 0; // 重置临时数组计数
+    memset(tempemployee, 0, sizeof(tempemployee)); // 清空临时数组
+}
+// 查询员工信息
+void searchEmployee() {
+    // 初始化临时数组
+    initTempEmployees();
+
     int choice;
     cout << "\n===== 查询员工 =====\n";
     cout << "1. 按工号查询\n";
@@ -62,64 +88,78 @@ void searchEmployee()
 
     bool found = false;
 
-    switch (choice)
-    {
-    case 1:
-    { // 按工号查询
+    switch (choice) {
+    case 1: { // 按工号查询
         char searchId[20];
         cout << "请输入要查询的工号: ";
         cin.getline(searchId, sizeof(searchId));
 
         cout << "\n查询结果:\n";
-        cout << "工号\t姓名\t职位" << endl;
-        for (int i = 0; i < employeeCount; i++)
-        {
-            if (strcmp(employees[i].id, searchId) == 0)
-            {
+        cout << "工号\t姓名\t职位\t工资" << endl;
+        for (int i = 0; i < employeeCount; i++) {
+            if (strcmp(employees[i].id, searchId) == 0) {
+                // 使用 strcpy_s 替代 strcpy
+                strcpy_s(tempemployee[tempCount].id, sizeof(tempemployee[tempCount].id), employees[i].id);
+                strcpy_s(tempemployee[tempCount].name, sizeof(tempemployee[tempCount].name), employees[i].name);
+                strcpy_s(tempemployee[tempCount].position, sizeof(tempemployee[tempCount].position), employees[i].position);
+                tempemployee[tempCount].salary = employees[i].salary;
+                tempCount++;
+
                 cout << employees[i].id << "\t"
-                     << employees[i].name << "\t"
-                     << employees[i].position << endl;
+                    << employees[i].name << "\t"
+                    << employees[i].position << "\t"
+                    << employees[i].salary << endl;
                 found = true;
                 break; // 工号唯一，找到后即可退出
             }
         }
         break;
     }
-    case 2:
-    { // 按姓名查询
+    case 2: { // 按姓名查询
         char searchName[50];
         cout << "请输入要查询的姓名: ";
         cin.getline(searchName, sizeof(searchName));
 
         cout << "\n查询结果:\n";
-        cout << "工号\t姓名\t职位" << endl;
-        for (int i = 0; i < employeeCount; i++)
-        {
-            if (strcmp(employees[i].name, searchName) == 0)
-            {
+        cout << "工号\t姓名\t职位\t工资" << endl;
+        for (int i = 0; i < employeeCount; i++) {
+            if (strcmp(employees[i].name, searchName) == 0) {
+                // 使用 strcpy_s 替代 strcpy
+                strcpy_s(tempemployee[tempCount].id, sizeof(tempemployee[tempCount].id), employees[i].id);
+                strcpy_s(tempemployee[tempCount].name, sizeof(tempemployee[tempCount].name), employees[i].name);
+                strcpy_s(tempemployee[tempCount].position, sizeof(tempemployee[tempCount].position), employees[i].position);
+                tempemployee[tempCount].salary = employees[i].salary;
+                tempCount++;
+
                 cout << employees[i].id << "\t"
-                     << employees[i].name << "\t"
-                     << employees[i].position << endl;
+                    << employees[i].name << "\t"
+                    << employees[i].position << "\t"
+                    << employees[i].salary << endl;
                 found = true;
             }
         }
         break;
     }
-    case 3:
-    { // 按职位查询
+    case 3: { // 按职位查询
         char searchPosition[50];
         cout << "请输入要查询的职位: ";
         cin.getline(searchPosition, sizeof(searchPosition));
 
         cout << "\n查询结果:\n";
-        cout << "工号\t姓名\t职位" << endl;
-        for (int i = 0; i < employeeCount; i++)
-        {
-            if (strcmp(employees[i].position, searchPosition) == 0)
-            {
+        cout << "工号\t姓名\t职位\t工资" << endl;
+        for (int i = 0; i < employeeCount; i++) {
+            if (strcmp(employees[i].position, searchPosition) == 0) {
+                // 使用 strcpy_s 替代 strcpy
+                strcpy_s(tempemployee[tempCount].id, sizeof(tempemployee[tempCount].id), employees[i].id);
+                strcpy_s(tempemployee[tempCount].name, sizeof(tempemployee[tempCount].name), employees[i].name);
+                strcpy_s(tempemployee[tempCount].position, sizeof(tempemployee[tempCount].position), employees[i].position);
+                tempemployee[tempCount].salary = employees[i].salary;
+                tempCount++;
+
                 cout << employees[i].id << "\t"
-                     << employees[i].name << "\t"
-                     << employees[i].position << endl;
+                    << employees[i].name << "\t"
+                    << employees[i].position << "\t"
+                    << employees[i].salary << endl;
                 found = true;
             }
         }
@@ -130,10 +170,12 @@ void searchEmployee()
         return;
     }
 
-    if (!found)
-    {
+    if (!found) {
         cout << "未找到匹配的员工信息！" << endl;
     }
+
+    // 打印临时数组内容
+    //printTempEmployees();
 }
 void deleteEmployee(int index) // 删除函数
 {
@@ -302,8 +344,6 @@ int main()
     // 测试查询功能
     searchEmployee();
 
-    // 测试查询功能
-    searchEmployee();
 
     return 0;
 }
